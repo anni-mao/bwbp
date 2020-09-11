@@ -6,7 +6,7 @@ const win = Dimensions.get('window');
 
 export const ImageContainer = styled.View`
   align-items: center;
-  flex: 0.95;
+  flex: 0.65;
 `;
 
 export const LoginImg = styled.Image`
@@ -28,14 +28,14 @@ export const LoginInput = styled.TextInput`
   padding-horizontal: 5%;
   align-items: stretch;
   font-size: 20;
-  height: 8%;
+  height: 4%;
   margin: 0 10% 5% 10%;
 `;
 
 export const LoginButton = styled.TouchableOpacity`
   border-radius: 5;
   background-color: ${Colors.brandBlue};
-  height: 8%;
+  height: 4%;
   align-items: center;
   justify-content: center;
   margin: 0 10% 0 10%;
