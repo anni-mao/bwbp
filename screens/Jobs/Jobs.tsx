@@ -1,11 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { GlobalContext } from '@components/ContextProvider';
 import { BaseScreen } from '../BaseScreen/BaseScreen';
 import { JobCard } from './components/Card/JobCard';
 import { JobRecord } from '@utils/airtable/interface';
-import { getJobs, updateJob } from '@utils/airtable/requests';
+import { getJobs, updateJob, storeUser } from '@utils/airtable/requests';
 import { Status } from '../StatusScreen/StatusScreen';
 import ContactsModal from '@components/ContactsModal/ContactsModal';
 import { StatusController } from '@screens/StatusScreen/StatusController';
@@ -106,7 +106,32 @@ export class JobsScreen extends React.Component<JobsScreenProps, JobsScreenState
     console.log(newJobs, availability);
 
     // Step 1: Remove jobs where the schedule doesn't align with the users' availability.
+    const booleans = [availability.monday, availability.tuesday, availability.wednesday, availability.thursday, availability.friday]
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    var filtered1 = newJobs.map(job => {
+        return job["schedule"].map(day => {
+        const index = weekdays.indexOf(day);
+        if (booleans[index] != true) {
+          return null; 
+        } else {
+          return job; 
+        }
+      })
+    });
 
+    filtered1 = filtered1.filter(job => job != null).map(j => {return j});  
+    // var filtered = newJobs.map(job => {
+    //   var days = job["schedule"].filter(day => (booleans[weekdays.indexOf(day)] == true)); 
+    //   console.log(days); 
+    //   return job; 
+    // });
+    
+    // var test = newJobs.filter(job => {return job["city"] == "San Francisco"}).map(job => {return job}); 
+
+    // console.log("Print Test");
+    // console.log(test);
+    console.log(filtered1);
+    
     // Step 2: Save into state
     this.setState({ jobs: newJobs });
   };
